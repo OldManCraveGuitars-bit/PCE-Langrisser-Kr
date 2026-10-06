@@ -5,4 +5,7 @@
 *.mca
 *.state
 *.zip
+*.exe
+__pycache__/
+*.pyc
 !screenshots/*.png

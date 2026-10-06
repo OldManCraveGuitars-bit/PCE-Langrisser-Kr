@@ -4,8 +4,18 @@
 
 PC Engine CD-ROM²판 《랑그릿사: 광휘의 후예》의 개인 테스트용 한국어
 패치입니다. 공개 버전은 **v0.7**, 내부 빌드는 **V369**입니다. 원본 게임과
-BIOS를 포함하지 않는 BPS 패치 묶음을 제공합니다. 아직 최종 완성판이
+BIOS를 포함하지 않는 BPS 패치 묶음과 Windows 패처 EXE를 제공합니다. 아직 최종 완성판이
 아니므로 아래 검수 범위와 알려진 문제를 읽고 사용해 주세요.
+
+Windows 사용자는 `PCE-Langrisser-Kr-v0.7-Patcher.exe`를 실행해 소유한 일본
+원본 ISO를 선택하면 됩니다. 원본·패치·결과 파일의 해시를 검사하고
+BIN·CUE·Track39를 한 폴더에 생성합니다. 원본은 수정하지 않으며, 같은
+이름의 기존 결과 파일도 덮어쓰지 않습니다. 약 560 MB의 출력 공간이
+필요합니다. EXE SHA-256:
+`112830B1AF68112EC7EBFADC3B00BE150CCC84C32248434DEAEA842BCD834E15`
+
+기존 수동 BPS ZIP도 그대로 제공합니다. 패처는 적용 편의 도구이며 게임
+데이터와 검수 범위는 기존 v0.7과 같습니다.
 
 ## 이번 공개판에 들어간 내용
 
@@ -41,7 +51,7 @@ BIOS를 포함하지 않는 BPS 패치 묶음을 제공합니다. 아직 최종 
 
 ![엔딩 B 후일담](https://raw.githubusercontent.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/main/screenshots/ending-b-epilogue.png)
 
-## 적용 방법
+## 수동 BPS 적용 방법
 
 1. 본인 소유의 일본 원본 ISO를 준비합니다. 지원 원본 SHA-256:
    `ECE10A51AABD107E7F4B83DACA1DEC7B3B0B43D7C15FCFBAE89E840C77910E68`
@@ -56,6 +66,7 @@ BIOS를 포함하지 않는 BPS 패치 묶음을 제공합니다. 아직 최종 
 
 ## 현재 알려진 문제
 
+- [Turbo EverDrive Pro + PC Engine GT에서 1화 진입 전 글자/화면 깨짐과 리셋이 보고됐습니다](https://github.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/issues/1). 원인은 아직 확인되지 않았습니다. Windows 패처 EXE는 적용 편의 도구로, 이 실기 문제를 수정하지 않습니다.
 - 일반 1화 하단 직업/이름 줄에 금색 타일이 섞이는 표시 오류가 있습니다.
 - 엔딩 B의 첫 후일담 본문은 확인했지만, 사용자가 보고한 알베르트 화면을
   포함한 모든 후일담 장면을 직접 캡처해 전수 대조한 것은 아닙니다.
