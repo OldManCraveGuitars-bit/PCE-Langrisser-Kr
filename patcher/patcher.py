@@ -1,6 +1,6 @@
-"""Offline, ROM-free Windows installer for the v0.701 BPS patch.
+"""Offline, ROM-free Windows installer for the v0.702 BPS patch.
 
-The bundled assets are only a BPS delta, CUE sheet and extra data track.
+The bundled assets are only a BPS delta and single-BIN CUE sheet.
 The user supplies the supported Japanese raw ISO; no game or BIOS is bundled.
 """
 
@@ -21,16 +21,14 @@ import zlib
 
 SOURCE_SIZE = 559_051_584
 SOURCE_SHA256 = "ECE10A51AABD107E7F4B83DACA1DEC7B3B0B43D7C15FCFBAE89E840C77910E68"
-TARGET_SIZE = 559_051_584
-TARGET_SHA256 = "8F722CAF1E8B5EB871AFA7394E65850B241E6A0740381E35633D2D7FCBBD0851"
-BIN_NAME = "LANGRISSER_KR_VISUAL_ENDING_B_FONT_V369_TECH.bin"
-CUE_NAME = "LANGRISSER_KR_VISUAL_ENDING_B_FONT_V369_TECH_MODE1_2352.cue"
-TRACK_NAME = "LANGRISSER_KR_DIALOGUE_TRACK39_V369_TECH_MODE1_2352.bin"
-PATCH_NAME = "PCE-Langrisser-Kr-v0.701-patch.bps"
+TARGET_SIZE = 559_105_680
+TARGET_SHA256 = "069EAC1E5F761C53647F94BD96C0D66CA58FD2799F014A933E3E90FF74054E4D"
+BIN_NAME = "LANGRISSER_KR_SINGLE_BIN_TRACK39_DIAG_V371.bin"
+CUE_NAME = "LANGRISSER_KR_SINGLE_BIN_TRACK39_DIAG_V371.cue"
+PATCH_NAME = "PCE-Langrisser-Kr-v0.702-patch.bps"
 ASSET_HASHES = {
-    PATCH_NAME: "7EB58894BB8886D610369D757A64E495404140D6027C483579E06FA5D7EE5404",
-    CUE_NAME: "3201CBA4A955B04DC2D24134EBA027A23C47D6F60039C9A94A520923E56D1DDA",
-    TRACK_NAME: "505C5CF423C42FB6117D0891E11BD32E21293A063446B8F7CCA0DA2AAF534D3F",
+    PATCH_NAME: "EB5AE1D1FC43505FE6B6E10A6FD5C0E8889466DAD8160B77E4CB1BAFDF02FB16",
+    CUE_NAME: "08C114333AAB0F7B5480A031C24335B171BEB9A16D197A24BB4756BBEC866535",
 }
 CHUNK = 1024 * 1024
 
@@ -181,15 +179,15 @@ def install(source: Path, destination: Path, assets: Path,
         if not path.is_file() or sha256_file(path) != ASSET_HASHES[name]:
             raise ValueError(f"내장 파일 검증 실패: {name}")
     cue = asset_paths[CUE_NAME].read_text(encoding="ascii")
-    if (cue.count("TRACK ") != 39 or BIN_NAME not in cue or TRACK_NAME not in cue
-            or "TRACK 39 MODE1/2352" not in cue):
+    if (cue.count("TRACK ") != 39 or cue.count('FILE "') != 1
+            or BIN_NAME not in cue or "TRACK 39 MODE1/2352" not in cue):
         raise ValueError("CUE의 트랙 구성이나 파일명이 맞지 않습니다.")
     patch = asset_paths[PATCH_NAME].read_bytes()
     parse_patch_header(patch)
 
     destination.mkdir(parents=True, exist_ok=True)
     destination = destination.resolve()
-    final_paths = [destination / BIN_NAME, destination / CUE_NAME, destination / TRACK_NAME]
+    final_paths = [destination / BIN_NAME, destination / CUE_NAME]
     temporary = destination / (BIN_NAME + ".partial")
     if source in final_paths or any(path.exists() for path in [*final_paths, temporary]):
         raise FileExistsError("출력 위치에 같은 이름의 파일이 있습니다. 빈 폴더를 선택하세요.")
@@ -197,15 +195,14 @@ def install(source: Path, destination: Path, assets: Path,
     try:
         apply_bps(patch, source, temporary, progress)
         created.append(temporary)
-        for name, destination_file in ((CUE_NAME, final_paths[1]), (TRACK_NAME, final_paths[2])):
+        for name, destination_file in ((CUE_NAME, final_paths[1]),):
             with destination_file.open("xb") as target_file:
                 created.append(destination_file)
                 with asset_paths[name].open("rb") as source_file:
                     for block in iter(lambda: source_file.read(CHUNK), b""):
                         target_file.write(block)
-        if (sha256_file(final_paths[1]) != ASSET_HASHES[CUE_NAME]
-                or sha256_file(final_paths[2]) != ASSET_HASHES[TRACK_NAME]):
-            raise ValueError("CUE 또는 Track39 복사 검증 실패")
+        if sha256_file(final_paths[1]) != ASSET_HASHES[CUE_NAME]:
+            raise ValueError("CUE 복사 검증 실패")
         temporary.replace(final_paths[0])
         created.remove(temporary)
         created.append(final_paths[0])
@@ -229,7 +226,7 @@ def gui(assets: Path) -> None:
     from tkinter import filedialog, messagebox, ttk
 
     root = tk.Tk()
-    root.title("PCE 랑그릿사 한국어 패치 v0.701 (실기 시험판)")
+    root.title("PCE 랑그릿사 한국어 패치 v0.702 (실기 진단판)")
     root.geometry("650x250")
     root.resizable(False, False)
     frame = ttk.Frame(root, padding=18)
@@ -243,12 +240,12 @@ def gui(assets: Path) -> None:
         selected = filedialog.askopenfilename(title="일본 원본 ISO 선택", filetypes=[("ISO/BIN", "*.iso *.bin"), ("모든 파일", "*.*")])
         if selected:
             source_value.set(selected)
-            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.701"))
+            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.702"))
 
     def select_destination():
         selected = filedialog.askdirectory(title="출력 폴더의 상위 폴더 선택")
         if selected:
-            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.701"))
+            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.702"))
 
     ttk.Label(frame, text="일본 원본 ISO").grid(row=0, column=0, sticky="w")
     ttk.Entry(frame, textvariable=source_value, width=68).grid(row=1, column=0, sticky="ew", pady=(2, 12))
@@ -301,9 +298,9 @@ def gui(assets: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="PCE Langrisser v0.701 ROM-free patcher (hardware trial)")
+    parser = argparse.ArgumentParser(description="PCE Langrisser v0.702 ROM-free patcher (single-BIN hardware diagnostic)")
     parser.add_argument("--input", type=Path, help="supported Japanese raw ISO")
-    parser.add_argument("--output-dir", type=Path, help="directory for patched BIN, CUE and Track39")
+    parser.add_argument("--output-dir", type=Path, help="directory for patched single BIN and CUE")
     parser.add_argument("--assets", type=Path, default=asset_directory(), help=argparse.SUPPRESS)
     arguments = parser.parse_args()
     if bool(arguments.input) != bool(arguments.output_dir):
