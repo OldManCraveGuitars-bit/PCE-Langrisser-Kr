@@ -1,4 +1,4 @@
-"""Offline, ROM-free Windows installer for the v0.702 BPS patch.
+"""Offline, ROM-free Windows installer for the v0.703 BPS patch.
 
 The bundled assets are only a BPS delta and single-BIN CUE sheet.
 The user supplies the supported Japanese raw ISO; no game or BIOS is bundled.
@@ -21,14 +21,14 @@ import zlib
 
 SOURCE_SIZE = 559_051_584
 SOURCE_SHA256 = "ECE10A51AABD107E7F4B83DACA1DEC7B3B0B43D7C15FCFBAE89E840C77910E68"
-TARGET_SIZE = 559_105_680
-TARGET_SHA256 = "069EAC1E5F761C53647F94BD96C0D66CA58FD2799F014A933E3E90FF74054E4D"
-BIN_NAME = "LANGRISSER_KR_SINGLE_BIN_TRACK39_DIAG_V371.bin"
-CUE_NAME = "LANGRISSER_KR_SINGLE_BIN_TRACK39_DIAG_V371.cue"
-PATCH_NAME = "PCE-Langrisser-Kr-v0.702-patch.bps"
+TARGET_SIZE = 559_051_584
+TARGET_SHA256 = "21ABC1F4E557665C127A646408E4748B7D28EB84C99964EE224E42984E49A7A6"
+BIN_NAME = "LANGRISSER_KR_TRACK2_COMPLETE_RELOCATION_V372.bin"
+CUE_NAME = "LANGRISSER_KR_TRACK2_COMPLETE_RELOCATION_V372.cue"
+PATCH_NAME = "PCE-Langrisser-Kr-v0.703-patch.bps"
 ASSET_HASHES = {
-    PATCH_NAME: "EB5AE1D1FC43505FE6B6E10A6FD5C0E8889466DAD8160B77E4CB1BAFDF02FB16",
-    CUE_NAME: "08C114333AAB0F7B5480A031C24335B171BEB9A16D197A24BB4756BBEC866535",
+    PATCH_NAME: "2736601AA0A08F7A0A8C5855BC69804CAE49884F7E792A4210894DFA233B83A8",
+    CUE_NAME: "1182A3CA74910E1E6B7831F18652E175C7A550B36EC736F4E3A11CB5E6F4896C",
 }
 CHUNK = 1024 * 1024
 
@@ -179,8 +179,8 @@ def install(source: Path, destination: Path, assets: Path,
         if not path.is_file() or sha256_file(path) != ASSET_HASHES[name]:
             raise ValueError(f"내장 파일 검증 실패: {name}")
     cue = asset_paths[CUE_NAME].read_text(encoding="ascii")
-    if (cue.count("TRACK ") != 39 or cue.count('FILE "') != 1
-            or BIN_NAME not in cue or "TRACK 39 MODE1/2352" not in cue):
+    if (cue.count("TRACK ") != 38 or cue.count('FILE "') != 1
+            or BIN_NAME not in cue or "TRACK 02 MODE1/2352" not in cue or "TRACK 39 " in cue):
         raise ValueError("CUE의 트랙 구성이나 파일명이 맞지 않습니다.")
     patch = asset_paths[PATCH_NAME].read_bytes()
     parse_patch_header(patch)
@@ -206,7 +206,7 @@ def install(source: Path, destination: Path, assets: Path,
         temporary.replace(final_paths[0])
         created.remove(temporary)
         created.append(final_paths[0])
-        progress("완료. 에뮬레이터에서 CUE 파일을 여세요.")
+        progress("완료. 결과 BIN과 CUE를 함께 복사하고 CUE로 실행하세요. 실기 검증 전 시험판입니다.")
         return final_paths[1]
     except Exception:
         # Only files created by this invocation are eligible for removal.
@@ -226,7 +226,7 @@ def gui(assets: Path) -> None:
     from tkinter import filedialog, messagebox, ttk
 
     root = tk.Tk()
-    root.title("PCE 랑그릿사 한국어 패치 v0.702 (실기 진단판)")
+    root.title("PCE 랑그릿사 한국어 패치 v0.703 (38트랙 실기 시험판 · 미검증)")
     root.geometry("650x250")
     root.resizable(False, False)
     frame = ttk.Frame(root, padding=18)
@@ -240,12 +240,12 @@ def gui(assets: Path) -> None:
         selected = filedialog.askopenfilename(title="일본 원본 ISO 선택", filetypes=[("ISO/BIN", "*.iso *.bin"), ("모든 파일", "*.*")])
         if selected:
             source_value.set(selected)
-            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.702"))
+            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.703"))
 
     def select_destination():
         selected = filedialog.askdirectory(title="출력 폴더의 상위 폴더 선택")
         if selected:
-            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.702"))
+            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.703"))
 
     ttk.Label(frame, text="일본 원본 ISO").grid(row=0, column=0, sticky="w")
     ttk.Entry(frame, textvariable=source_value, width=68).grid(row=1, column=0, sticky="ew", pady=(2, 12))
@@ -284,7 +284,7 @@ def gui(assets: Path) -> None:
                     status.set(message)
                 elif kind == "done":
                     button.configure(state="normal")
-                    messagebox.showinfo("패치 완료", f"완료했습니다. 에뮬레이터에서 다음 CUE를 여세요:\n{message}")
+                    messagebox.showinfo("패치 완료", f"완료했습니다. BIN과 CUE를 함께 복사하고 다음 CUE로 실행하세요. 실기 미검증 시험판입니다:\n{message}")
                 else:
                     button.configure(state="normal")
                     status.set("실패: " + message)
@@ -298,7 +298,7 @@ def gui(assets: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="PCE Langrisser v0.702 ROM-free patcher (single-BIN hardware diagnostic)")
+    parser = argparse.ArgumentParser(description="PCE Langrisser v0.703 ROM-free patcher (original-38-track hardware diagnostic)")
     parser.add_argument("--input", type=Path, help="supported Japanese raw ISO")
     parser.add_argument("--output-dir", type=Path, help="directory for patched single BIN and CUE")
     parser.add_argument("--assets", type=Path, default=asset_directory(), help=argparse.SUPPRESS)
