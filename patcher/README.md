@@ -1,7 +1,7 @@
 # Windows 원클릭 패처
 
-`PCE-Langrisser-Kr-v0.7-Patcher.exe`는 원본 게임이나 BIOS를 포함하지 않습니다.
-배포된 v0.7 BPS·CUE·Track39만 실행 파일에 넣었습니다.
+`PCE-Langrisser-Kr-v0.701-Patcher.exe`는 원본 게임이나 BIOS를 포함하지 않습니다.
+배포된 v0.701 BPS·CUE·Track39만 실행 파일에 넣었습니다.
 
 1. EXE를 실행하고 본인이 보유한 일본 원본 ISO를 선택합니다.
 2. 결과 폴더를 확인하고 `검사 후 패치 적용`을 누릅니다.
@@ -24,10 +24,11 @@
 필요합니다:
 
 ```powershell
-./patcher/build.ps1 -AssetDirectory C:/path/to/PCE-Langrisser-Kr-v0.7-patch -OutputDirectory C:/path/to/output
+./patcher/build.ps1 -AssetDirectory C:/path/to/PCE-Langrisser-Kr-v0.701-patch -OutputDirectory C:/path/to/output
 ```
 
-기존 수동 BPS ZIP은 그대로 이용할 수 있습니다. 이 EXE는 적용 편의 도구일 뿐,
-게임 데이터나 검수 범위를 변경하지 않습니다.
+v0.701의 본편 BPS와 결과 BIN은 v0.7과 동일하지만, 동봉된 CUE와 39번
+데이터 트랙은 `MODE1/2352` 시험판입니다. 이전 버전의 CUE·Track39와
+섞지 마세요. 이 EXE도 동일한 시험판 파일을 묶은 적용 편의 도구입니다.
 [Turbo EverDrive Pro + PC Engine GT 실기에서 보고된 1화 진입 문제](https://github.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/issues/1)도
-이 EXE로 해결된 것은 아닙니다.
+이 EXE로 해결되는지는 아직 실기에서 확인되지 않았습니다.

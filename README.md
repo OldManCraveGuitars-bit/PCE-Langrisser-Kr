@@ -5,7 +5,7 @@
 *프리징, 그래픽 깨짐 이슈가 있을수 있습니다. 꼭 제보주세요
 
 PC Engine CD-ROM²판 《랑그릿사: 광휘의 후예》 한국어 패치입니다.
-현재 공개 버전은 **v0.7 프리릴리스**이며, 내부 빌드 번호는 V369입니다.
+현재 공개 버전은 **v0.701 실기 호환성 시험판**이며, 내부 빌드 번호는 V369입니다.
 실제 게임 화면을 바탕으로 만든 작업 기록과 테스트용 BPS 패치를 제공합니다.
 원본 게임 이미지와 BIOS는 배포하지 않습니다.
 
@@ -14,9 +14,9 @@ PC Engine CD-ROM²판 《랑그릿사: 광휘의 후예》 한국어 패치입�
 
 ## 다운로드와 적용
 
-[v0.7 릴리스에서 Windows 원클릭 패처 EXE 또는 수동 BPS ZIP 다운로드](https://github.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/releases/tag/v0.7)
+[v0.701 릴리스에서 Windows 원클릭 패처 EXE 또는 수동 BPS ZIP 다운로드](https://github.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/releases/tag/v0.701)
 
-Windows에서는 `PCE-Langrisser-Kr-v0.7-Patcher.exe`를 실행해 본인 소유의
+Windows에서는 `PCE-Langrisser-Kr-v0.701-Patcher.exe`를 실행해 본인 소유의
 일본 원본 ISO를 선택하면 됩니다. EXE가 원본 해시를 확인하고 BIN·CUE·Track39를
 한 폴더에 생성한 뒤 결과도 검증합니다. **게임 이미지와 BIOS는 EXE에 없습니다.**
 원본은 수정하지 않고, 기존 파일은 덮어쓰지 않습니다. 결과용으로 약 560 MB의
@@ -29,7 +29,7 @@ Windows에서는 `PCE-Langrisser-Kr-v0.7-Patcher.exe`를 실행해 본인 소유
 2. 릴리스 ZIP을 풀고, Floating IPS 등 BPS 적용 도구로 동봉된 `.bps`를
    원본 ISO에 적용합니다.
 3. 결과 파일 이름을 `LANGRISSER_KR_VISUAL_ENDING_B_FONT_V369_TECH.bin`으로 지정합니다.
-4. 이 BIN과 동봉된 `.cue`, `LANGRISSER_KR_DIALOGUE_TRACK39_V369_TECH.bin`을
+4. 이 BIN과 동봉된 `.cue`, `LANGRISSER_KR_DIALOGUE_TRACK39_V369_TECH_MODE1_2352.bin`을
    같은 폴더에 둡니다.
 5. 에뮬레이터에서 **BIN이 아닌 CUE**를 엽니다. PC Engine CD-ROM² BIOS는 별도 준비가 필요합니다.
 
@@ -74,11 +74,17 @@ Windows에서는 `PCE-Langrisser-Kr-v0.7-Patcher.exe`를 실행해 본인 소유
 - BPS 적용 후 결과 BIN이 V369 제품과 바이트 단위로 같은지 재적용 검증했고,
   디스크 MODE1 섹터 5,304개를 확인했습니다.
 
-자세한 변경 내용과 검사 범위는 [v0.7 릴리스 노트](RELEASE_NOTES-v0.7.md)에 적었습니다.
+v0.701에서는 게임 본편 BIN과 BPS는 그대로 두고, 별도 39번 데이터 트랙을
+`MODE1/2048`에서 EDC/ECC가 있는 `MODE1/2352`로 바꿨습니다. 일부 실기
+장비의 2048바이트 데이터 트랙 처리 문제를 시험하기 위한 변경입니다.
+에뮬레이터 단축 경로에서는 v0.7과 출력 상태가 같았지만, **Turbo EverDrive Pro
+및 PC Engine GT 실기에서 문제가 해결됐는지는 아직 확인되지 않았습니다.**
+자세한 내용은 [v0.701 릴리스 노트](RELEASE_NOTES-v0.701.md)를 참고하세요.
+기존 변경 내역은 [v0.7 릴리스 노트](RELEASE_NOTES-v0.7.md)에 있습니다.
 
 ## 아직 남은 문제와 검증 범위
 
-- [Turbo EverDrive Pro + PC Engine GT에서 1화 진입 전 글자/화면이 깨지고 리셋된다는 실기 보고](https://github.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/issues/1)가 있습니다. 원인 조사 중이며, 이번 Windows 패처 EXE는 게임 데이터나 디스크 구조를 바꾸지 않아 해당 실기 문제의 수정판이 아닙니다.
+- [Turbo EverDrive Pro + PC Engine GT에서 1화 진입 전 글자/화면이 깨지고 리셋된다는 실기 보고](https://github.com/OldManCraveGuitars-bit/PCE-Langrisser-Kr/issues/1)가 있습니다. v0.701은 39번 트랙 형식을 바꾼 시험판이며, 해당 실기 문제의 해결 여부는 미확인입니다.
 - 일반 1화 하단 직업/이름 줄에 금색 타일이 섞이는 그래픽 오류가 남아 있습니다.
 - 영상보기 엔딩 B의 **첫** 후일담 화면은 확인했지만 알베르트 등 모든
   후일담 화면을 직접 캡처해 육안 검수한 것은 아닙니다.
