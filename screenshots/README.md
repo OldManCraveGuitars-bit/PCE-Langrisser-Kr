@@ -2,6 +2,7 @@
 
 모든 PNG는 격리 에뮬레이터 실행에서 저장한 256×240 원본 화면입니다.
 v0.705 이미지는 게임 화면이 아니라 별도 읽기 진단 프로그램 화면입니다.
+v0.707 이미지는 실제 게임의 첫 한글 진입을 가로채 검사한 진단 화면입니다.
 색·글꼴·픽셀을 수정하거나 서로 다른 화면을 합성하지 않았습니다.
 캡처 경로는 로컬 작업공간의 검증 기록을 가리킵니다.
 
@@ -18,6 +19,7 @@ v0.705 이미지는 게임 화면이 아니라 별도 읽기 진단 프로그램
 | `v0.705-diagnostic.png` | V374 / v0.705 진단 전용 | `evidence/runtime/v374-adpcm-diagnostic-v4/isolated-runtime/snaps/ADPCM_DIAGNOSTIC_V374-0004.png` |
 | `v0.706-scenario-1-conditions.png` | V375 / v0.706 | `evidence/runtime/v375-explicit-font-destination-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_FONT_DEST_V375-0001.png` |
 | `v0.706-scenario-1-entry.png` | V375 / v0.706 | `evidence/runtime/v375-explicit-font-destination-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_FONT_DEST_V375-0002.png` |
+| `v0.707-live-diagnostic.png` | V378 / v0.707 진단 전용 | `evidence/runtime/v378-live-game-font-diagnostic-v2/isolated-runtime/snaps/LANGRISSER_LIVE_FONT_DIAGNOSTIC_V378-0006.png` |
 
 V369의 변경은 영상보기 엔딩 B 전용 경로에 한정됩니다. 메인 화면과 다른
 V368 캡처를 V369에서 다시 촬영했다는 뜻으로 표기하지 않았습니다.
