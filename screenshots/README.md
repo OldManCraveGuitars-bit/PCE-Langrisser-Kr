@@ -16,6 +16,8 @@ v0.705 이미지는 게임 화면이 아니라 별도 읽기 진단 프로그램
 | `v0.703-scenario-1-entry.png` | V372 / v0.703 | `evidence/runtime/v372-track2-complete-relocation-visual-v1/isolated-runtime/snaps/LANGRISSER_KR_TRACK2_COMPLETE_RELOCATION_V372-0187.png` |
 | `v0.704-scenario-1-entry.png` | V373 / v0.704 | `evidence/runtime/v373-adpcm-latch-release-v1/isolated-runtime/snaps/LANGRISSER_KR_ADPCM_LATCH_RELEASE_V373-0187.png` |
 | `v0.705-diagnostic.png` | V374 / v0.705 진단 전용 | `evidence/runtime/v374-adpcm-diagnostic-v4/isolated-runtime/snaps/ADPCM_DIAGNOSTIC_V374-0004.png` |
+| `v0.706-scenario-1-conditions.png` | V375 / v0.706 | `evidence/runtime/v375-explicit-font-destination-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_FONT_DEST_V375-0001.png` |
+| `v0.706-scenario-1-entry.png` | V375 / v0.706 | `evidence/runtime/v375-explicit-font-destination-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_FONT_DEST_V375-0002.png` |
 
 V369의 변경은 영상보기 엔딩 B 전용 경로에 한정됩니다. 메인 화면과 다른
 V368 캡처를 V369에서 다시 촬영했다는 뜻으로 표기하지 않았습니다.
@@ -25,3 +27,7 @@ v0.703 진입 화면은 V372 새 부팅 실행에서 촬영했습니다. 실기 
 
 v0.704 진입 화면은 V373 새 부팅 실행에서 촬영한 테일러 대사입니다.
 실기 캡처나 1화 클리어 증거가 아니며, 기존 갤러리의 전체 재촬영을 뜻하지 않습니다.
+
+v0.706의 두 캡처는 V375 새 부팅에서 각각 갱신 6,000회와 11,304회 시점입니다.
+1화 조건 화면과 제시카 대사이며 실기 성공·1화 클리어 증거는 아닙니다.
+리사이즈·합성·가독성 보정을 하지 않은 원본 크기 PNG입니다.
