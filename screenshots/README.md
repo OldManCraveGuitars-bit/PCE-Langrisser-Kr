@@ -3,6 +3,8 @@
 모든 PNG는 격리 에뮬레이터 실행에서 저장한 256×240 원본 화면입니다.
 v0.705 이미지는 게임 화면이 아니라 별도 읽기 진단 프로그램 화면입니다.
 v0.707 이미지는 실제 게임의 첫 한글 진입을 가로채 검사한 진단 화면입니다.
+v0.708의 게임 캡처는 V379이고, 글꼴 검증 이미지는 별도 로컬 V380 진단 화면입니다.
+배포 게임에 V380 진단 프로그램은 포함되지 않습니다.
 색·글꼴·픽셀을 수정하거나 서로 다른 화면을 합성하지 않았습니다.
 캡처 경로는 로컬 작업공간의 검증 기록을 가리킵니다.
 
@@ -20,6 +22,8 @@ v0.707 이미지는 실제 게임의 첫 한글 진입을 가로채 검사한 �
 | `v0.706-scenario-1-conditions.png` | V375 / v0.706 | `evidence/runtime/v375-explicit-font-destination-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_FONT_DEST_V375-0001.png` |
 | `v0.706-scenario-1-entry.png` | V375 / v0.706 | `evidence/runtime/v375-explicit-font-destination-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_FONT_DEST_V375-0002.png` |
 | `v0.707-live-diagnostic.png` | V378 / v0.707 진단 전용 | `evidence/runtime/v378-live-game-font-diagnostic-v2/isolated-runtime/snaps/LANGRISSER_LIVE_FONT_DIAGNOSTIC_V378-0006.png` |
+| `v0.708-scenario-1-entry.png` | V379 / v0.708 게임 | `evidence/runtime/v379-explicit-pair-reader-v1/isolated-runtime/snaps/LANGRISSER_KR_EXPLICIT_PAIR_V379-0187.png` |
+| `v0.708-font-validation.png` | V380 / 별도 로컬 검증 | `evidence/runtime/v380-pair-diagnostic-v2/isolated-runtime/snaps/LANGRISSER_PAIR_DIAGNOSTIC_V380-0013.png` |
 
 V369의 변경은 영상보기 엔딩 B 전용 경로에 한정됩니다. 메인 화면과 다른
 V368 캡처를 V369에서 다시 촬영했다는 뜻으로 표기하지 않았습니다.
@@ -33,3 +37,8 @@ v0.704 진입 화면은 V373 새 부팅 실행에서 촬영한 테일러 대사�
 v0.706의 두 캡처는 V375 새 부팅에서 각각 갱신 6,000회와 11,304회 시점입니다.
 1화 조건 화면과 제시카 대사이며 실기 성공·1화 클리어 증거는 아닙니다.
 리사이즈·합성·가독성 보정을 하지 않은 원본 크기 PNG입니다.
+
+v0.708 게임 캡처는 새 부팅 뒤 1화 지도에서 제시카의 대사를 표시한 장면입니다.
+실기 성공 또는 1화 클리어 증거가 아닙니다. V380은 실제 V379 디코더로 일반
+글꼴 896자와 작은 글꼴 86자를 검사한 에뮬레이터 화면입니다.
+맨 위 메인 화면은 기존 V368 캡처이며 이번에 다시 촬영한 것으로 표기하지 않았습니다.
