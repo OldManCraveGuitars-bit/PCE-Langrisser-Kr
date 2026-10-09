@@ -1,4 +1,4 @@
-"""Offline, ROM-free Windows installer for v0.75 magic/UI fixes (V382).
+"""Offline, ROM-free Windows installer for v0.8 icons/shop fixes (V384).
 
 The bundled assets are only a BPS delta and single-BIN CUE sheet.
 The user supplies the supported Japanese raw ISO; no game or BIOS is bundled.
@@ -22,13 +22,13 @@ import zlib
 SOURCE_SIZE = 559_051_584
 SOURCE_SHA256 = "ECE10A51AABD107E7F4B83DACA1DEC7B3B0B43D7C15FCFBAE89E840C77910E68"
 TARGET_SIZE = 559_051_584
-TARGET_SHA256 = "9931CF9871AE835F5BA82BBF695FFC8D19A948EFAD0D794C76F2FECC9ECFB93E"
-BIN_NAME = "LANGRISSER_KR_MAGIC_PAGES_V382.bin"
-CUE_NAME = "LANGRISSER_KR_MAGIC_PAGES_V382.cue"
-PATCH_NAME = "PCE-Langrisser-Kr-v0.75-patch.bps"
+TARGET_SHA256 = "7EA3AE0884805E55BECC1E42C0B95FCBBE10D00CE6593C27FEAE77E9CCB12436"
+BIN_NAME = "LANGRISSER_KR_FIELD_MARKERS_V384.bin"
+CUE_NAME = "LANGRISSER_KR_FIELD_MARKERS_V384.cue"
+PATCH_NAME = "PCE-Langrisser-Kr-v0.8-patch.bps"
 ASSET_HASHES = {
-    PATCH_NAME: "731336F8AC7A7269D01C8828607AF67FD4B2C0723BCA8573E2CF0E79E7F5C1DF",
-    CUE_NAME: "5BFF86F5EE6EBBE3BC00A76EF7EA16B19D3E7D319B3A8148B309CFF31487ACBD",
+    PATCH_NAME: "7D04360E65CC68AE56B1B45225408D65220DE9379E5F1C55DDEEF24FBB3A1DE7",
+    CUE_NAME: "2FC79AC106D2649176782213C3D92D93BE6A094B31AA7DEA6E15E565F94D1A04",
 }
 CHUNK = 1024 * 1024
 
@@ -206,7 +206,7 @@ def install(source: Path, destination: Path, assets: Path,
         temporary.replace(final_paths[0])
         created.remove(temporary)
         created.append(final_paths[0])
-        progress("완료. BIN과 CUE를 함께 복사해 CUE로 새 부팅하세요. v0.75는 마법명·페이지 화살표 수정판이며 새 버전의 실기 재검증은 아직입니다.")
+        progress("완료. BIN과 CUE를 함께 복사해 CUE로 새 부팅하세요. v0.8은 아이콘·상점 개선 시험판이며 실기 확인과 드문 마법 연출의 충돌 검수는 남아 있습니다.")
         return final_paths[1]
     except Exception:
         # Only files created by this invocation are eligible for removal.
@@ -226,26 +226,26 @@ def gui(assets: Path) -> None:
     from tkinter import filedialog, messagebox, ttk
 
     root = tk.Tk()
-    root.title("PCE 랑그릿사 v0.75 (마법명·페이지 화살표 수정)")
+    root.title("PCE 랑그릿사 v0.8 (아이콘·상점 개선 시험판)")
     root.geometry("650x250")
     root.resizable(False, False)
     frame = ttk.Frame(root, padding=18)
     frame.pack(fill="both", expand=True)
     source_value = tk.StringVar()
     dest_value = tk.StringVar()
-    status = tk.StringVar(value="일본 원본 ISO를 선택하세요. v0.708 실기 대응을 유지한 마법/UI 수정판입니다. v0.75 자체의 실기 재검증은 아직입니다.")
+    status = tk.StringVar(value="일본 원본 ISO를 선택하세요. v0.8은 명령·어택·실드 아이콘과 상점 스크롤 개선 시험판입니다. 실기 확인과 드문 마법 연출의 충돌 검수는 남아 있습니다.")
     events: queue.Queue[tuple[str, str]] = queue.Queue()
 
     def select_source():
         selected = filedialog.askopenfilename(title="일본 원본 ISO 선택", filetypes=[("ISO/BIN", "*.iso *.bin"), ("모든 파일", "*.*")])
         if selected:
             source_value.set(selected)
-            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.75"))
+            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.8"))
 
     def select_destination():
         selected = filedialog.askdirectory(title="출력 폴더의 상위 폴더 선택")
         if selected:
-            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.75"))
+            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.8"))
 
     ttk.Label(frame, text="일본 원본 ISO").grid(row=0, column=0, sticky="w")
     ttk.Entry(frame, textvariable=source_value, width=68).grid(row=1, column=0, sticky="ew", pady=(2, 12))
@@ -254,7 +254,7 @@ def gui(assets: Path) -> None:
     ttk.Entry(frame, textvariable=dest_value, width=68).grid(row=3, column=0, sticky="ew", pady=(2, 12))
     ttk.Button(frame, text="변경", command=select_destination).grid(row=3, column=1, padx=(8, 0), pady=(2, 12))
     ttk.Label(frame, textvariable=status, wraplength=600).grid(row=4, column=0, columnspan=2, sticky="w")
-    button = ttk.Button(frame, text="검사 후 v0.75 이미지 만들기")
+    button = ttk.Button(frame, text="검사 후 v0.8 이미지 만들기")
     button.grid(row=5, column=0, columnspan=2, pady=(14, 0))
 
     def launch():
@@ -284,7 +284,7 @@ def gui(assets: Path) -> None:
                     status.set(message)
                 elif kind == "done":
                     button.configure(state="normal")
-                    messagebox.showinfo("v0.75 이미지 완료", f"BIN과 CUE를 함께 복사하고 다음 CUE로 새로 부팅하세요. 이전 버전 세이브스테이트는 사용하지 마세요. v0.75 자체의 실기 재검증은 아직입니다:\n{message}")
+                    messagebox.showinfo("v0.8 이미지 완료", f"BIN과 CUE를 함께 복사하고 다음 CUE로 새로 부팅하세요. 이전 버전 세이브스테이트는 사용하지 마세요. v0.8의 실기 확인과 드문 마법 연출의 충돌 검수는 남아 있습니다:\n{message}")
                 else:
                     button.configure(state="normal")
                     status.set("실패: " + message)
@@ -298,7 +298,7 @@ def gui(assets: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="PCE Langrisser v0.75 ROM-free patcher (V382; new build hardware recheck pending)")
+    parser = argparse.ArgumentParser(description="PCE Langrisser v0.8 ROM-free patcher (V384 prerelease; hardware and wider effect checks pending)")
     parser.add_argument("--input", type=Path, help="supported Japanese raw ISO")
     parser.add_argument("--output-dir", type=Path, help="directory for patched single BIN and CUE")
     parser.add_argument("--assets", type=Path, default=asset_directory(), help=argparse.SUPPRESS)
