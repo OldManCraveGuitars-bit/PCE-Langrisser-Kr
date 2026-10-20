@@ -8,6 +8,32 @@ v0.708의 게임 캡처는 V379이고, 글꼴 검증 이미지는 별도 로컬 
 색·글꼴·픽셀을 수정하거나 서로 다른 화면을 합성하지 않았습니다.
 캡처 경로는 로컬 작업공간의 검증 기록을 가리킵니다.
 
+## v0.81 캡처
+
+| 공개 파일 | 캡처 빌드 | 로컬 원본 |
+| --- | --- | --- |
+| `v0.81-zone.png` | V385 | `evidence/runtime/issue10-v385-zone-fixture-v1/isolated-runtime/snaps/LANGRISSER_KR_STATUS_ICONS_V385-0349.png` |
+| `v0.81-silence.png` | V385 | `evidence/runtime/issue10-v385-silence-fixture-v1/isolated-runtime/snaps/LANGRISSER_KR_STATUS_ICONS_V385-0349.png` |
+| `v0.81-movie-before.png` | V384 / 수정 전 | `evidence/runtime/issue10-v384-movie13-frames-v1/isolated-runtime/snaps/LANGRISSER_KR_FIELD_MARKERS_V384-2417.png` |
+| `v0.81-movie-after.png` | V386 / 수정 후 | `evidence/runtime/issue10-v386-movie13-frames-v1/isolated-runtime/snaps/LANGRISSER_KR_S13_NATIVE_MOVIE_V386-2392.png` |
+| `v0.81-scenario13-battle.png` | V387 / 최종 v0.81 | `evidence/runtime/release-v081-s13-battle-capture-v1/isolated-runtime/snaps/LANGRISSER_KR_ISSUE10_V387-0020.png` |
+| `v0.81-item-recheck.png` | V387 / 최종 v0.81 | `evidence/runtime/issue10-v387-s12-two-swords-scroll-v2/isolated-runtime/snaps/LANGRISSER_KR_ISSUE10_V387-0000.png` |
+
+V385의 두 상태 아이콘 화면은 상태 플래그를 진단용으로 설정하고, 아이콘 확인을 위해
+우선 표시되는 NPC 표식을 숨긴 출력입니다. 실제 마법 메뉴 시전 검사를 뜻하지 않습니다.
+V386의 영상 수정은 최종 V387에 포함되며, 최종 빌드에서도 재생 명령과 대표 시점의
+VRAM을 재확인했습니다. V384 영상 화면의 깨짐은 수정 전 비교용으로 의도적으로 포함했습니다.
+
+V387 전투는 좌표 조건을 조정한 단축 검사입니다. 아이템 화면은 중복 랑그릿사·가득 찬
+보유 목록을 설정한 재현 검사이며, **제보된 아이템 깨짐을 고쳤다는 증거가 아닙니다.**
+진단용 값은 배포 게임에 포함되지 않습니다. 새 실기 촬영이나 전체 자연 플레이로
+표기하지 않았고, 음성 동작은 이미지가 아닌 별도의 명령·재생 위치 기록으로 검사했습니다.
+
+맨 위 `title.png`는 아래에 기록된 기존 V368 캡처입니다.
+ZIP의 `screenshot-manifest.json`에 각 이미지의 원본 SHA-256도 기록했습니다.
+
+## 이전 캡처
+
 | 공개 파일 | 캡처 빌드 | 로컬 원본 |
 | --- | --- | --- |
 | `title.png` | V368 | `evidence/runtime/movie-v368-title-new-game-v2/isolated-runtime/snaps/LANGRISSER_KR_MOVIE_HIDDEN_BAND_V368_TECH-0001.png` |
