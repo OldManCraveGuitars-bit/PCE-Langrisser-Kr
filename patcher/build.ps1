@@ -8,8 +8,8 @@ $assetPath = (Resolve-Path -LiteralPath $AssetDirectory).Path
 $outputPath = [System.IO.Path]::GetFullPath($OutputDirectory)
 $sourcePath = Join-Path $PSScriptRoot 'patcher.py'
 $names = @(
-    'PCE-Langrisser-Kr-v0.815-patch.bps',
-    'LANGRISSER_KR_KOREAN_CARD_V388.cue'
+    'PCE-Langrisser-Kr-v0.82-patch.bps',
+    'LANGRISSER_KR_EXTRA_CACHE_V392.cue'
 )
 foreach ($name in $names) {
     $filePath = Join-Path $assetPath $name
@@ -21,7 +21,7 @@ foreach ($name in $names) {
 $buildRoot = Join-Path $outputPath '_build'
 $arguments = @(
     '-m', 'PyInstaller', '--noconfirm', '--clean', '--onefile', '--windowed',
-    '--name', 'PCE-Langrisser-Kr-v0.815-Patcher',
+    '--name', 'PCE-Langrisser-Kr-v0.82-Patcher',
     '--distpath', $outputPath,
     '--workpath', (Join-Path $buildRoot 'work'),
     '--specpath', (Join-Path $buildRoot 'spec')
