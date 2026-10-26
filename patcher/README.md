@@ -1,17 +1,21 @@
-# Windows 원클릭 패처 v0.83
+# Windows 원클릭 패처 v0.831
 
-17→18장 전환 프리징과 영상 중 필드 BGM 재생 문제를 수정한 시험판입니다.
-**에뮬레이터 검증이며 실기 재검증은 하지 못했습니다.** 이전 수정도 포함합니다.
+현재 소스는 내부 V397 호환 수정판을 빌드합니다.
+v0.831 릴리스 ZIP의 자산을 사용하세요. 기존 v0.83 자산과는 파일명이 다릅니다.
+Mesen CE 2.2.1의 트랙 공백 해석 차이에 대응해 공백을 이미지 내부에 저장합니다.
+게임이 보는 트랙 위치와 v0.83의 실제 38개 트랙 데이터는 동일합니다.
+**에뮬레이터 검증이며 실기 재검증은 하지 못했습니다.**
 
-`PCE-Langrisser-Kr-v0.83-Patcher.exe`에는 BPS 차분과 CUE만 포함됩니다.
+`PCE-Langrisser-Kr-v0.831-Patcher.exe`에는 BPS 차분과 CUE만 포함됩니다.
 게임 원본과 BIOS는 배포하지 않습니다.
 
 1. EXE를 실행하고 본인 소유의 지원 일본 원본 ISO를 선택합니다.
-2. 별도 결과 폴더를 지정하고 `검사 후 v0.83 이미지 만들기`를 누릅니다.
+2. 별도 결과 폴더를 지정하고 `검사 후 v0.831 이미지 만들기`를 누릅니다.
 3. 생성된 BIN과 CUE를 같은 폴더에 두고 **CUE로 새로 부팅**합니다.
 4. 이전 버전 세이브스테이트는 불러오지 마세요. 게임 내 저장 파일은 백업하세요.
 
-내부 파일명 `LANGRISSER_KR_MOVIE_FRAME_V396.bin/.cue`는 정상입니다.
+내부 파일명은 `LANGRISSER_KR_CD_COMPAT_V397.bin/.cue`입니다.
+기존 V396 BIN과 새 V397 CUE를 섞어 사용하지 마세요.
 원래 38트랙 구성이며 추가 39번 트랙은 없습니다.
 이전 한글 패치판이 아닌 일본 원본에 적용하세요.
 
@@ -25,18 +29,19 @@
 ECE10A51AABD107E7F4B83DACA1DEC7B3B0B43D7C15FCFBAE89E840C77910E68
 ```
 
-v0.83 결과 BIN SHA-256:
+V397 결과 BIN SHA-256:
 
 ```text
-B63B96BD40111E845755E63645F01D544E2131CE65D3BCDCC2FE6A158A5D1ED1
+2C917A4DC733D9735E98965EFC0FA8D2F45583292FB26B71DA1A11F1C81CEF18
 ```
 
 Python 표준 라이브러리의 BPS 적용기를 PyInstaller로 묶었습니다.
-릴리스 ZIP의 BPS·CUE로 다음과 같이 빌드할 수 있습니다.
+v0.831의 BPS·CUE로 다음과 같이 빌드할 수 있습니다.
 
 ```powershell
-./patcher/build.ps1 -AssetDirectory C:/path/to/PCE-Langrisser-Kr-v0.83-patch -OutputDirectory C:/path/to/output
+./patcher/build.ps1 -AssetDirectory C:/path/to/v0.831 -OutputDirectory C:/path/to/output
 ```
 
-검사 결과는 ZIP의 `patcher-test.json`, 수정 내용은
-[상세 변경과 검증 범위](../RELEASE_NOTES-v0.83.md)를 참고하세요.
+검사 결과는 ZIP의 `patcher-test.json`, `runtime-audit.json`,
+사용 방법과 수정 내용은 `README-KO.txt`를 참고하세요.
+기존 v0.83 내용은 [상세 변경과 검증 범위](../RELEASE_NOTES-v0.83.md)에 있습니다.

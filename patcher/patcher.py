@@ -1,4 +1,4 @@
-"""Offline, ROM-free Windows installer for v0.83 movie transition fixes (V396).
+"""Offline, ROM-free installer for v0.831 Mesen CD compatibility (V397).
 
 The bundled assets are only a BPS delta and single-BIN CUE sheet.
 The user supplies the supported Japanese raw ISO; no game or BIOS is bundled.
@@ -21,14 +21,14 @@ import zlib
 
 SOURCE_SIZE = 559_051_584
 SOURCE_SHA256 = "ECE10A51AABD107E7F4B83DACA1DEC7B3B0B43D7C15FCFBAE89E840C77910E68"
-TARGET_SIZE = 559_051_584
-TARGET_SHA256 = "B63B96BD40111E845755E63645F01D544E2131CE65D3BCDCC2FE6A158A5D1ED1"
-BIN_NAME = "LANGRISSER_KR_MOVIE_FRAME_V396.bin"
-CUE_NAME = "LANGRISSER_KR_MOVIE_FRAME_V396.cue"
-PATCH_NAME = "PCE-Langrisser-Kr-v0.83-patch.bps"
+TARGET_SIZE = 559_933_584
+TARGET_SHA256 = "2C917A4DC733D9735E98965EFC0FA8D2F45583292FB26B71DA1A11F1C81CEF18"
+BIN_NAME = "LANGRISSER_KR_CD_COMPAT_V397.bin"
+CUE_NAME = "LANGRISSER_KR_CD_COMPAT_V397.cue"
+PATCH_NAME = "PCE-Langrisser-Kr-v0.831-patch.bps"
 ASSET_HASHES = {
-    PATCH_NAME: "B1A322DB14BA4BEDA8FE95CABC6287B9AFD96113143245B712CE6A42C9CF21F1",
-    CUE_NAME: "7F851BE45E2610017DC9692EC2E70FD5E7037F86D8291E860BD2729D98343D07",
+    PATCH_NAME: "B8223EEA5E4820D04F8802428A7A6D613866DEB508CC2592E1A30EEB95DAA46E",
+    CUE_NAME: "71B0445877748A53517271CD9AF3D340039D47AF0936F2C93579C366AC994589",
 }
 CHUNK = 1024 * 1024
 
@@ -180,7 +180,8 @@ def install(source: Path, destination: Path, assets: Path,
             raise ValueError(f"내장 파일 검증 실패: {name}")
     cue = asset_paths[CUE_NAME].read_text(encoding="ascii")
     if (cue.count("TRACK ") != 38 or cue.count('FILE "') != 1
-            or BIN_NAME not in cue or "TRACK 02 MODE1/2352" not in cue or "TRACK 39 " in cue):
+            or BIN_NAME not in cue or "TRACK 02 MODE1/2352" not in cue or "TRACK 39 " in cue
+            or "PREGAP" in cue or cue.count("INDEX 00 ") != 2):
         raise ValueError("CUE의 트랙 구성이나 파일명이 맞지 않습니다.")
     patch = asset_paths[PATCH_NAME].read_bytes()
     parse_patch_header(patch)
@@ -206,7 +207,7 @@ def install(source: Path, destination: Path, assets: Path,
         temporary.replace(final_paths[0])
         created.remove(temporary)
         created.append(final_paths[0])
-        progress("완료. BIN과 CUE를 함께 복사해 CUE로 새 부팅하세요. v0.83은 에뮬레이터 검증 시험판이며 실기 재검증은 하지 않았습니다.")
+        progress("완료. BIN과 CUE를 함께 복사해 CUE로 새 부팅하세요. v0.831 Mesen 호환 수정판입니다. 실기 재검증은 하지 않았습니다.")
         return final_paths[1]
     except Exception:
         # Only files created by this invocation are eligible for removal.
@@ -226,26 +227,26 @@ def gui(assets: Path) -> None:
     from tkinter import filedialog, messagebox, ttk
 
     root = tk.Tk()
-    root.title("PCE 랑그릿사 v0.83 (V396 시험판)")
+    root.title("PCE 랑그릿사 v0.831 Mesen 호환 수정판 (V397)")
     root.geometry("650x250")
     root.resizable(False, False)
     frame = ttk.Frame(root, padding=18)
     frame.pack(fill="both", expand=True)
     source_value = tk.StringVar()
     dest_value = tk.StringVar()
-    status = tk.StringVar(value="일본 원본 ISO를 선택하세요. v0.83은 17→18장 프리징·영상 BGM 수정과 이전 수정을 포함합니다. 실기 재검증은 하지 않았습니다.")
+    status = tk.StringVar(value="일본 원본 ISO를 선택하세요. v0.831은 Mesen CE 부팅 호환성과 v0.83의 수정 내용을 포함합니다. 실기 재검증은 하지 않았습니다.")
     events: queue.Queue[tuple[str, str]] = queue.Queue()
 
     def select_source():
         selected = filedialog.askopenfilename(title="일본 원본 ISO 선택", filetypes=[("ISO/BIN", "*.iso *.bin"), ("모든 파일", "*.*")])
         if selected:
             source_value.set(selected)
-            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.83"))
+            dest_value.set(str(Path(selected).parent / "PCE-Langrisser-Kr-v0.831"))
 
     def select_destination():
         selected = filedialog.askdirectory(title="출력 폴더의 상위 폴더 선택")
         if selected:
-            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.83"))
+            dest_value.set(str(Path(selected) / "PCE-Langrisser-Kr-v0.831"))
 
     ttk.Label(frame, text="일본 원본 ISO").grid(row=0, column=0, sticky="w")
     ttk.Entry(frame, textvariable=source_value, width=68).grid(row=1, column=0, sticky="ew", pady=(2, 12))
@@ -254,7 +255,7 @@ def gui(assets: Path) -> None:
     ttk.Entry(frame, textvariable=dest_value, width=68).grid(row=3, column=0, sticky="ew", pady=(2, 12))
     ttk.Button(frame, text="변경", command=select_destination).grid(row=3, column=1, padx=(8, 0), pady=(2, 12))
     ttk.Label(frame, textvariable=status, wraplength=600).grid(row=4, column=0, columnspan=2, sticky="w")
-    button = ttk.Button(frame, text="검사 후 v0.83 이미지 만들기")
+    button = ttk.Button(frame, text="검사 후 v0.831 이미지 만들기")
     button.grid(row=5, column=0, columnspan=2, pady=(14, 0))
 
     def launch():
@@ -284,7 +285,7 @@ def gui(assets: Path) -> None:
                     status.set(message)
                 elif kind == "done":
                     button.configure(state="normal")
-                    messagebox.showinfo("v0.83 이미지 완료", f"BIN과 CUE를 함께 복사하고 다음 CUE로 새로 부팅하세요. 이전 버전 세이브스테이트는 사용하지 마세요. 게임 내 저장은 먼저 백업하세요. 실기 재검증은 하지 않았습니다:\n{message}")
+                    messagebox.showinfo("v0.831 이미지 완료", f"BIN과 CUE를 함께 복사하고 다음 CUE로 새로 부팅하세요. 이전 버전 세이브스테이트는 사용하지 마세요. 게임 내 저장은 먼저 백업하세요. 실기 재검증은 하지 않았습니다:\n{message}")
                 else:
                     button.configure(state="normal")
                     status.set("실패: " + message)
@@ -298,7 +299,7 @@ def gui(assets: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="PCE Langrisser v0.83 ROM-free patcher (V396 prerelease; emulator verified, hardware verification pending)")
+    parser = argparse.ArgumentParser(description="PCE Langrisser v0.831 Mesen compatibility patcher (V397; emulator verified, hardware verification pending)")
     parser.add_argument("--input", type=Path, help="supported Japanese raw ISO")
     parser.add_argument("--output-dir", type=Path, help="directory for patched single BIN and CUE")
     parser.add_argument("--assets", type=Path, default=asset_directory(), help=argparse.SUPPRESS)
