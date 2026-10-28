@@ -1,3 +1,4 @@
+RDB-2QWV-XDG9
 ![PCE 랑그릿사 한국어판 메인 화면](screenshots/title.png)
 
 # PCE-Langrisser-Kr
